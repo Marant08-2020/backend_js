@@ -1,16 +1,15 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
-import { Role } from '../common/enums/rol.enum';
-import { Auth } from './decorators/auth.decorator';
-import { ActiveUser } from 'src/common/decorators/active-user.decorator';
-import { ActiveUserInterface } from 'src/common/interfaces/active-user.interface';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
+import { CreateUserDto } from '../users/dto/create-users';
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
-
+  @ApiBody({ type: CreateUserDto })
   @Post('register/users')
   register(@Body() registerDto: RegisterDto) {
     return this.authService.register(registerDto);
@@ -19,9 +18,4 @@ export class AuthController {
   login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);
   }
-  /*@Auth(Role.USER)
-  @Get('profile')
-  profile(@ActiveUser() user: ActiveUserInterface) {
-    return this.authService.profile(user);
-  }*/
 }

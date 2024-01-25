@@ -1,8 +1,8 @@
+import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import {
   IsOptional,
   IsString,
-  IsObject,
   IsEmail,
   IsStrongPassword,
   IsNumber,
@@ -11,6 +11,10 @@ import {
 export class RegisterDto {
   @IsNumber()
   @IsOptional()
+  @ApiPropertyOptional({
+    description:
+      'El id se genera en automático no es necesario enviarlo en el objeto USER',
+  })
   id: number;
   @Transform(({ value }) => value.trim())
   @IsString()
@@ -22,10 +26,8 @@ export class RegisterDto {
   @IsOptional()
   @IsString()
   role: string;
+  @Transform(({ value }) => value.trim())
   @IsOptional()
-  @IsObject()
-  details: {
-    apellidos: string;
-    rol: string;
-  };
+  @IsString()
+  apellidos: string;
 }

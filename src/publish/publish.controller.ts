@@ -16,27 +16,22 @@ import { Auth } from '../auth/decorators/auth.decorator';
 import { Role } from '../common/enums/rol.enum';
 import { ActiveUser } from '../common/decorators/active-user.decorator';
 import { ActiveUserInterface } from '../common/interfaces/active-user.interface';
-import { FilterParamsDto } from '../common/dto/filter-post';
+import { FilterParamsDto, filterDto } from '../common/dto/filter-post';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Posts')
 @Controller('post')
 export class PublishController {
   constructor(private publishService: PublishService) {}
-  @Get('/filter')
-  postFilte(@Query() queryParams: FilterParamsDto) {
-    console.log(queryParams);
-    return this.publishService.filterPost(queryParams);
-  }
   @Get()
-  findAll(@Query() params: FilterParamsDto) {
+  findAll(@Query() params: filterDto) {
     return this.publishService.findAll(params);
   }
   @Get('/user/:userId')
-  findByUserId(
-    @Param('userId') userId: number,
-    @Query() params: FilterParamsDto,
-  ) {
+  findByUserId(@Param('userId') userId: number, @Query() params: filterDto) {
     return this.publishService.findByIdAutor(userId, params);
   }
+  @ApiBearerAuth()
   @Auth(Role.USER)
   @Post()
   create(
@@ -49,6 +44,7 @@ export class PublishController {
   findOne(@Param('id') id: number): Promise<Publish> {
     return this.publishService.findOneById(id);
   }
+  @ApiBearerAuth()
   @Auth(Role.USER)
   @Delete(':id')
   remove(
@@ -57,6 +53,7 @@ export class PublishController {
   ) {
     return this.publishService.remove(id, userActive);
   }
+  @ApiBearerAuth()
   @Auth(Role.USER)
   @Put(':id')
   update(
@@ -65,9 +62,5 @@ export class PublishController {
     @ActiveUser() userActive: ActiveUserInterface,
   ): Promise<Publish> {
     return this.publishService.updateById(id, updatePost, userActive);
-  }
-  @Get('/search/:text')
-  searchText(@Param('text') text: string, @Query() params: FilterParamsDto) {
-    return this.publishService.searchByText(text, params);
   }
 }

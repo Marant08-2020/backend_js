@@ -12,7 +12,7 @@ import { UpdateUserDto } from './dto/update-users';
 import { CounterService } from '../counters/counter.service';
 import { ActiveUserInterface } from '../common/interfaces/active-user.interface';
 import { Role } from '../common/enums/rol.enum';
-import { FilterParamsDto } from '../common/dto/filter-post';
+import { QueryDtoUser } from '../common/dto/filter-post';
 
 @Injectable()
 export class UsersService {
@@ -26,7 +26,7 @@ export class UsersService {
     const createdUser = new this.userModel(createUserDto);
     return createdUser.save();
   }
-  async findAll(queryParams: FilterParamsDto): Promise<User[]> {
+  async findAll(queryParams: QueryDtoUser): Promise<User[]> {
     const { page = 1, limit = 10 } = queryParams;
     return this.userModel
       .find()
@@ -76,6 +76,12 @@ export class UsersService {
     const userUpdate = await this.userModel
       .findOneAndUpdate({ id: id }, updateUserDto, { new: true })
       .lean();
+    if (updateUserDto.password) {
+      await this.userModel.findOne({ id: id }).then(function (doc) {
+        doc.password = updateUserDto.password;
+        doc.save();
+      });
+    }
     return userUpdate;
   }
   async removeById(id: number) {

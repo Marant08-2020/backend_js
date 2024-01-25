@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UsersService } from './users/users.service';
 import { PublishService } from './publish/publish.service';
 import { User } from './users/schemas/user.schema';
-import { FilterParamsDto } from './common/dto/filter-post';
+import { FilterParamsDto, QueryDtoPostState, QueryDtoUser } from './common/dto/filter-post';
 
 @Injectable()
 export class AppService {
@@ -10,13 +10,13 @@ export class AppService {
     private userService: UsersService,
     private postService: PublishService,
   ) {}
-  getUsers(queryParams: FilterParamsDto): Promise<User[]> {
+  getUsers(queryParams: QueryDtoUser): Promise<User[]> {
     return this.userService.findAll(queryParams);
   }
   deleteUser(id: number) {
     return this.userService.removeById(id);
   }
-  getPostByState(queryParams: FilterParamsDto) {
+  getPostByState(queryParams: QueryDtoPostState) {
     return this.postService.filterByState(queryParams);
   }
 }

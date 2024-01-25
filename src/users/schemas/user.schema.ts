@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { Role } from '../../common/enums/rol.enum';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 const SALT_WORK_FACTOR = 10;
 
 export type UserDocument = HydratedDocument<User>;
@@ -10,19 +11,21 @@ export type UserDocument = HydratedDocument<User>;
 export class User {
   @Prop({ type: Number, index: { unique: true } })
   id: number;
+  @ApiProperty()
   @Prop({ type: String, required: true })
+  @ApiProperty()
   name: string;
+  @ApiProperty()
   @Prop({ type: String, required: true, select: false })
   password: string;
   @Prop({ type: String, required: true, default: Role.USER, enum: Role })
   role: Role;
   @Prop({ type: String, required: true })
+  @ApiProperty()
   email: string;
-  @Prop({ type: Object })
-  details: {
-    apellidos: string;
-    rol: string;
-  };
+  @ApiPropertyOptional()
+  @Prop({ type: String })
+  apellidos: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

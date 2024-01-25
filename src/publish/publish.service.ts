@@ -11,7 +11,7 @@ import { PublishDtoByEmail } from './dto/publish-by-email';
 import { PublishUpdateDtoByEmail } from './dto/update-publish';
 import { CounterService } from '../counters/counter.service';
 import { ActiveUserInterface } from '../common/interfaces/active-user.interface';
-import { FilterParamsDto } from '../common/dto/filter-post';
+import { FilterParamsDto, QueryDtoPostState, filterDto } from '../common/dto/filter-post';
 import { Role } from '../common/enums/rol.enum';
 import { State } from '../common/enums/state.enum';
 
@@ -68,7 +68,7 @@ export class PublishService {
       throw new BadRequestException(error.message);
     }
   }
-  async findAll(params: FilterParamsDto): Promise<Publish[]> {
+  async findAll(params: filterDto): Promise<Publish[]> {
     const { page = 1, limit = 10 } = params;
     return this.publishModel
       .find()
@@ -118,7 +118,7 @@ export class PublishService {
     }
     return publish;
   }
-  async findByIdAutor(userId: number, params: FilterParamsDto) {
+  async findByIdAutor(userId: number, params: filterDto) {
     const { page = 1, limit = 10 } = params;
     const user = await this.usersService.userOneById(userId);
     if (!user) {
@@ -142,7 +142,7 @@ export class PublishService {
       return postAutorEmail;
     }
   }
-  async searchByText(text: string, params: FilterParamsDto) {
+  async searchByText(text: string, params: filterDto) {
     const { page = 1, limit = 10 } = params;
     return this.publishModel
       .find({ $text: { $search: text } })
@@ -186,10 +186,10 @@ export class PublishService {
       .sort({ id: 1 })
       .exec();
   }
-  async filterByState(params: FilterParamsDto) {
-    const { page = 1, limit = 10 } = params;
+  async filterByState(params: QueryDtoPostState) {
+    const { page = 1, limit = 10, state = State.ACTIVE } = params;
     const filters: FilterQuery<Publish> = {};
-    filters.$or = [{ state: State.DELETE }, { state: State.EDIT }];
+    filters.state = { $eq: state };
     return this.publishModel
       .find(filters)
       .populate({ path: 'autor', select: '-password -role -id -_id -email' })

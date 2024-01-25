@@ -5,6 +5,7 @@ import { PublishController } from './publish.controller';
 import { PublishService } from './publish.service';
 import { UsersModule } from '../users/users.module';
 import { CounterModule } from '../counters/counter.module';
+import { FilterSearchController } from './filter.search.controller';
 
 @Module({
   imports: [
@@ -12,7 +13,7 @@ import { CounterModule } from '../counters/counter.module';
     MongooseModule.forFeature([{ name: Publish.name, schema: PublishSchema }]),
     CounterModule,
   ],
-  controllers: [PublishController],
+  controllers: [PublishController, FilterSearchController],
   providers: [PublishService],
   exports: [PublishService],
 })

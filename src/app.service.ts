@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UsersService } from './users/users.service';
 import { PublishService } from './publish/publish.service';
 import { User } from './users/schemas/user.schema';
-import { FilterParamsDto, QueryDtoPostState, QueryDtoUser } from './common/dto/filter-post';
+import { QueryDtoPostState, QueryDtoUser } from './common/dto/filter-post';
 
 @Injectable()
 export class AppService {

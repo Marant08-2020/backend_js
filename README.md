@@ -45,17 +45,16 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Documentation
+
+- Author - [Marco Antonio Mojica](http://127.0.0.1:3000/docs)
+
 ## Test
 
 ```bash
 # unit tests
 $ npm run test
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
 ```
 
 ## Support

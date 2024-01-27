@@ -47,7 +47,7 @@ $ npm run start:prod
 
 ## Documentation
 
-- Author - [Marco Antonio Mojica](http://127.0.0.1:3000/docs)
+- Author Marco Antonio Mojica - [Swagger documentation](http://127.0.0.1:3000/docs)
 
 ## Test
 

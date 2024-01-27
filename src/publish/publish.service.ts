@@ -11,9 +11,14 @@ import { PublishDtoByEmail } from './dto/publish-by-email';
 import { PublishUpdateDtoByEmail } from './dto/update-publish';
 import { CounterService } from '../counters/counter.service';
 import { ActiveUserInterface } from '../common/interfaces/active-user.interface';
-import { FilterParamsDto, QueryDtoPostState, filterDto } from '../common/dto/filter-post';
+import {
+  FilterParamsDto,
+  QueryDtoPostState,
+  filterDto,
+} from '../common/dto/filter-post';
 import { Role } from '../common/enums/rol.enum';
 import { State } from '../common/enums/state.enum';
+import { PublishUserInterface } from '../common/interfaces/publish-user.interface';
 
 @Injectable()
 export class PublishService {
@@ -38,7 +43,7 @@ export class PublishService {
       autor: userId,
       category: createPublish.category,
     });
-    return await createdPublish.save();
+    return (await createdPublish.save()).populate({ path: 'autor' });
   }
   async findOneById(id: number): Promise<Publish> {
     const post = await this.publishModel

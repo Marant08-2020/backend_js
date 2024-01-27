@@ -26,16 +26,22 @@ export class PublishUpdateDtoByEmail {
   @ApiPropertyOptional()
   @IsOptional()
   @IsDateString()
-  readonly publishDate?: Date;
-  @ApiPropertyOptional({ type: String, description: 'Email del autor del post' })
-  @IsOptional()
-  @IsArray()
   @IsNotEmpty()
-  readonly category?: string[];
+  readonly publishDate?: Date;
   @ApiPropertyOptional({
-    description: 'Solo del administrado puede cambiar de autor',
+    description:
+      'Email del autor del post y Solo del administrado puede cambiar de autor',
   })
   @IsOptional()
   @IsEmail()
   autor?: string;
+  @IsNotEmpty()
+  @ApiPropertyOptional({
+    type: [String],
+    description: 'La categoria en un arreglo por ejemplo: ["Arte", "Ciencia"]',
+  })
+  @IsOptional()
+  @IsArray()
+  @IsNotEmpty()
+  readonly category?: string[];
 }

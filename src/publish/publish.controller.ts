@@ -16,7 +16,7 @@ import { Auth } from '../auth/decorators/auth.decorator';
 import { Role } from '../common/enums/rol.enum';
 import { ActiveUser } from '../common/decorators/active-user.decorator';
 import { ActiveUserInterface } from '../common/interfaces/active-user.interface';
-import { FilterParamsDto, filterDto } from '../common/dto/filter-post';
+import { filterDto } from '../common/dto/filter-post';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Posts')

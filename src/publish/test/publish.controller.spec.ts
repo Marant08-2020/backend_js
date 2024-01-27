@@ -1,5 +1,4 @@
 import { CanActivate } from '@nestjs/common';
-import { UsersService } from '../../users/users.service';
 import { PublishController } from '../publish.controller';
 import { PublishService } from '../publish.service';
 import { Test, TestingModule } from '@nestjs/testing';
@@ -15,7 +14,6 @@ import { PublishUpdateDtoByEmail } from '../dto/update-publish';
 jest.mock('../publish.service');
 
 describe('PublishController', () => {
-  let usersService: UsersService;
   let publishController: PublishController;
   let publishService: PublishService;
 
@@ -193,10 +191,4 @@ describe('PublishController', () => {
       });
     });
   });
-
-
-
-
-
-
 });

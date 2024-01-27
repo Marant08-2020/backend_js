@@ -8,6 +8,7 @@ import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { AccessTokenInterface } from '../common/interfaces/acces-token.interface';
 
 @Injectable()
 export class AuthService {
@@ -23,7 +24,7 @@ export class AuthService {
     return await this.usersService.create(registerDto);
   }
 
-  async login(loginDto: LoginDto) {
+  async login(loginDto: LoginDto): Promise<AccessTokenInterface> {
     const user = await this.usersService.findOnebyPassword(loginDto.email);
     if (!user) {
       throw new UnauthorizedException('User is wrong');
